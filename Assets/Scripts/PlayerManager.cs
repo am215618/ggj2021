@@ -15,6 +15,11 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    public Player player;
-    //public UIScript ui;
+    public PlayerController player;
+    public UIScript ui;
+
+    private void Start()
+    {
+        ui.gameObject.SetActive(true);
+    }
 }

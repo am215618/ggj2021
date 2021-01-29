@@ -36,8 +36,6 @@ public class InteractionScript : MonoBehaviour
 
                     interactText.text = interactOption;
                     interactActive = true;
-                    if(player.GetComponent<Player>().NPCScript == null)
-                        player.GetComponent<Player>().SetNPC(this);
                 }
                 break;
 
@@ -46,8 +44,6 @@ public class InteractionScript : MonoBehaviour
                 {
                     interactThingy.SetActive(false);
                     interactActive = false;
-                    if (player.GetComponent<Player>().NPCScript != null)
-                        player.GetComponent<Player>().SetNPC(null);
                 }
                 break;
         }
