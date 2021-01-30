@@ -5,5 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class UIScript : MonoBehaviour
 {
-    
+    public GameObject abilityThing;
+    public GameObject KeyThing;
+
+    private void Start()
+    {
+        abilityThing.SetActive(false);
+        KeyThing.SetActive(false);
+    }
 }

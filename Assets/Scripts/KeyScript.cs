@@ -11,6 +11,11 @@ public class KeyScript : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("A");
+            if (!PlayerManager.instance.ui.KeyThing.activeSelf)
+            {
+                PlayerManager.instance.ui.KeyThing.SetActive(true);
+            }
+
             if (doorToUnlock != null)
             {
                 doorToUnlock.isLocked = false;
