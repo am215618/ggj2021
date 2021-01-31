@@ -41,11 +41,11 @@ public class TalkingToNPCScript : InteractionScript
                 InteractUI = Instantiate(InteractUI);
             }
         }
-        else if (dialogueManager.continueButton.activeInHierarchy)
-        {
-            Debug.Log("works?");
-            dialogueManager.NextSentence();
-        }
+        //else if (dialogueManager.continueButton.activeInHierarchy)
+        //{
+        //    Debug.Log("works?");
+        //    dialogueManager.NextSentence();
+        //}
     }
 
     public void OnEndConvo()

@@ -18,14 +18,14 @@ public class DialogueManager : MonoBehaviour
 
     public float typingSpeed;
 
-    public GameObject optionsBox;
-    public GameObject continueButton;
+    //public GameObject optionsBox;
+    //public GameObject continueButton;
 
     public Button button;
 
     int index;
-    float timePassed;
-    Button[] optionButtons;
+    //float timePassed;
+    //Button[] optionButtons;
 
     bool canContinue;
     bool canTypeToDisplay;
@@ -51,9 +51,9 @@ public class DialogueManager : MonoBehaviour
                 lines[lines.Length] = dialogueBranches[0].endPoint;
         }*/
 
-        optionButtons = optionsBox.GetComponentsInChildren<Button>();
+        //optionButtons = optionsBox.GetComponentsInChildren<Button>();
         characterNameText.text = lines[index].characterSpeaking;
-        continueButton.SetActive(false);
+        //continueButton.SetActive(false);
         Time.timeScale = 0f;
         //StartCoroutine(Type());
     }
@@ -67,26 +67,28 @@ public class DialogueManager : MonoBehaviour
 
         if (textDisplay.text == lines[index].line)
         {
-            timePassed += Time.unscaledDeltaTime;
+            //timePassed += Time.unscaledDeltaTime;
 
-            if (lines[index].endAfterSeconds <= timePassed && lines[index].endAutomatically || lines[index].endImmediatly)
+            //if (lines[index].endAfterSeconds <= timePassed && lines[index].endAutomatically || lines[index].endImmediatly)
+            if (lines[index].endImmediatly && canContinue)
             {
-                NextSentence();
-                return;
+                if (Input.GetKeyUp(KeyCode.E)) {
+                    NextSentence();
+                }
             }
 
-            if (lines[index].GetType() == typeof(DialogueOptions))
-            {
-                DialogueOptions dialogOpt = (DialogueOptions)lines[index];
+            //if (lines[index].GetType() == typeof(DialogueOptions))
+            //{
+                //DialogueOptions dialogOpt = (DialogueOptions)lines[index];
 
-                if (dialogOpt.options.Length > optionButtons.Length)
-                {
-                    for (int i = 0; i < dialogOpt.options.Length; i++)
-                    {
-                        button.GetComponent<DialogueButton>().buttonIndex = i;
-                        Instantiate(button.gameObject, optionsBox.transform);
-                    }
-                    optionButtons = optionsBox.GetComponentsInChildren<Button>();
+                //if (dialogOpt.options.Length > optionButtons.Length)
+                //{
+                    //for (int i = 0; i < dialogOpt.options.Length; i++)
+                    //{
+                    //    button.GetComponent<DialogueButton>().buttonIndex = i;
+                    //    Instantiate(button.gameObject, optionsBox.transform);
+                    //}
+                    //optionButtons = optionsBox.GetComponentsInChildren<Button>();
 
                     /*for (int i = 0; i < optionButtons.Length; i++)
                     {
@@ -100,13 +102,13 @@ public class DialogueManager : MonoBehaviour
                     //}
 
                     //optionsBox.SetActive(true);
-                }
-            }
-            else
-            {
-                if(!lines[index].endAutomatically)
-                    continueButton.SetActive(true);
-            }
+                //}
+            //}
+            //else
+            //{
+            //    if(!lines[index].endAutomatically)
+            //        continueButton.SetActive(true);
+            //}
         }
         if (!canContinue && canTypeToDisplay)
             TypingOutTextToDisplay();
@@ -140,15 +142,16 @@ public class DialogueManager : MonoBehaviour
     {
         if (index + 1 < lines.Length)
         {
-            continueButton.SetActive(false);
-            timePassed = 0;
+            //continueButton.SetActive(false);
+
+            //timePassed = 0;
             if (index < lines.Length - 1)
             {
                 index++;
                 characterNameText.text = lines[index].characterSpeaking;
                 textDisplay.text = "";
                 canTypeToDisplay = true;
-                
+                canContinue = false;
                 //StartCoroutine(Type());
 
             }
@@ -179,7 +182,7 @@ public class DialogueManager : MonoBehaviour
             EndConvo();
         }
 
-        optionsBox.SetActive(false);
+        //optionsBox.SetActive(false);
     }
 
     public void EndConvo()
@@ -189,7 +192,7 @@ public class DialogueManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void ChangeTutorialButton()
+    /*void ChangeTutorialButton()
     {
         if (!tutorialButtonBothOptsSelected)
         {
@@ -203,5 +206,5 @@ public class DialogueManager : MonoBehaviour
             lastOption.enabled = true;
             lastOption.GetComponent<Button>().interactable = false;
         }
-    }
+    }*/
 }
