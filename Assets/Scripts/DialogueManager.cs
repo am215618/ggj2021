@@ -27,13 +27,19 @@ public class DialogueManager : MonoBehaviour
     float timePassed;
     Button[] optionButtons;
 
+    bool canContinue;
+    bool canTypeToDisplay;
+
     public bool tutorialButtonBothOptsSelected;
+    float textTypingTimer;
+    int letterIndex;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         textDisplay.text = "";
-
+        canContinue = false;
         /*if(lines == null)
         {
             lines = new DialogueLine[dialogueBranches[0].dialogueLines.Length + 1];
@@ -49,12 +55,13 @@ public class DialogueManager : MonoBehaviour
         characterNameText.text = lines[index].characterSpeaking;
         continueButton.SetActive(false);
         Time.timeScale = 0f;
-        StartCoroutine(Type());
+        //StartCoroutine(Type());
     }
 
     // Update is called once per frame
     void Update()
     {
+        textTypingTimer += Time.deltaTime;
         //(tutorialIntro != null)
             //tutorialButtonBothOptsSelected = tutorialIntro.BothOptionsSelected();
 
@@ -81,18 +88,18 @@ public class DialogueManager : MonoBehaviour
                     }
                     optionButtons = optionsBox.GetComponentsInChildren<Button>();
 
-                    for (int i = 0; i < optionButtons.Length; i++)
+                    /*for (int i = 0; i < optionButtons.Length; i++)
                     {
                         optionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = dialogOpt.options[i];
                         optionButtons[i].GetComponent<DialogueButton>().buttonIndex = i + 1;
-                    }
+                    }*/
 
                     //if(tutorialIntro != null)
                     //{
                     //    ChangeTutorialButton();
                     //}
 
-                    optionsBox.SetActive(true);
+                    //optionsBox.SetActive(true);
                 }
             }
             else
@@ -101,14 +108,24 @@ public class DialogueManager : MonoBehaviour
                     continueButton.SetActive(true);
             }
         }
+        if (!canContinue && canTypeToDisplay)
+            TypingOutTextToDisplay();
     }
 
-    IEnumerator Type()
-    {
-        foreach (char letter in lines[index].line.ToCharArray())
-        {
-            textDisplay.text += letter;
-            yield return new WaitForSecondsRealtime(typingSpeed);
+    void TypingOutTextToDisplay () {
+        if (textDisplay.text.Length < lines[index].line.Length) {
+            if (textTypingTimer >= typingSpeed)
+            {
+                textTypingTimer = 0;
+                letterIndex++;
+                lines[letterIndex].line.ToCharArray();
+                char letter = lines[index].line[letterIndex];
+                textDisplay.text += letter;
+            }
+        }
+        else {
+            canContinue = true;
+            letterIndex = 0;
         }
     }
 
@@ -130,7 +147,10 @@ public class DialogueManager : MonoBehaviour
                 index++;
                 characterNameText.text = lines[index].characterSpeaking;
                 textDisplay.text = "";
-                StartCoroutine(Type());
+                canTypeToDisplay = true;
+                
+                //StartCoroutine(Type());
+
             }
             else
             {
@@ -160,7 +180,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         optionsBox.SetActive(false);
-        StartCoroutine(Type());
     }
 
     public void EndConvo()
