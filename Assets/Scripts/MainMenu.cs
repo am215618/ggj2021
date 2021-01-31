@@ -15,32 +15,8 @@ public class MainMenu : MonoBehaviour
     public Slider musicSlider;
     public Slider sfxSlider;
 
-    public void Back()
-    {
-        mainMenu.SetActive(true);
-        settingsMenu.SetActive(false);
-    }
-
-    public void StartGame()
-    {
-        SceneManager.LoadScene(1, LoadSceneMode.Single);
-    }
-
-    public void Settings()
-    {
-        mainMenu.SetActive(false);
-        settingsMenu.SetActive(true);
-    }
-
-    public void SetMusicVolume(float vol)
-    {
-        musicMixer.SetFloat("MusicVol", Mathf.Log10(vol) * 20);
-    }
-
-    public void SetSFXVolume(float vol)
-    {
-        musicMixer.SetFloat("SFXVol", Mathf.Log10(vol) * 20);
-    }
+    public AudioSource source;
+    public AudioClip buttonPress;
 
     // Start is called before the first frame update
     void Start()
@@ -52,5 +28,35 @@ public class MainMenu : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void Back()
+    {
+        mainMenu.SetActive(true);
+        settingsMenu.SetActive(false);
+        source.Play();
+    }
+
+    public void StartGame()
+    {
+        source.Play();
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
+    }
+
+    public void Settings()
+    {
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+        source.Play();
+    }
+
+    public void SetMusicVolume(float vol)
+    {
+        musicMixer.SetFloat("MusicVol", Mathf.Log10(vol) * 20);
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        musicMixer.SetFloat("SFXVol", Mathf.Log10(vol) * 20);
     }
 }

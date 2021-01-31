@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Line 3
   m_EditorClassIdentifier: 
   characterSpeaking: 
-  line: 
+  line: 'Doctor Zima: W-what are you? '
   endAutomatically: 0
   endAfterSeconds: 0
   endImmediatly: 0

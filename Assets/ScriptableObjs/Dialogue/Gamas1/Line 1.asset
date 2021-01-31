@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3850e02e7b94d441b569abb74a243e8, type: 3}
-  m_Name: Line
+  m_Name: Line 1
   m_EditorClassIdentifier: 
   characterSpeaking: 
-  line: '???: Welcome Doctor Zima. Or is it just Zima now?'
+  line: 'Doctor Zima: ...'
   endAutomatically: 0
   endAfterSeconds: 0
   endImmediatly: 0

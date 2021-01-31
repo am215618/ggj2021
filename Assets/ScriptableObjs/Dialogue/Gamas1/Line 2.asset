@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Line 2
   m_EditorClassIdentifier: 
   characterSpeaking: 
-  line: 
+  line: '???: Lost your tongue? '
   endAutomatically: 0
   endAfterSeconds: 0
   endImmediatly: 0

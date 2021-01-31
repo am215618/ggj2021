@@ -6,7 +6,7 @@ public class Door : MonoBehaviour
 {
     public bool isLocked;
 
-    bool closed;
+    [SerializeField] AudioSource source;
 
     HingeJoint2D hinge;
     JointAngleLimits2D openLimits;
@@ -39,7 +39,7 @@ public class Door : MonoBehaviour
         Debug.Log("A");
         if (!isLocked)
         {
-            closed = false;
+            source.Play();
             if (!facingWest)
             {
                 transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
@@ -58,7 +58,6 @@ public class Door : MonoBehaviour
     public void CloseDoor()
     {
         Debug.Log("C");
-        closed = true;
         if (!facingWest)
         {
             transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
