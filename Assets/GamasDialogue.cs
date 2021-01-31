@@ -4,31 +4,87 @@ using UnityEngine;
 
 public class GamasDialogue : MonoBehaviour
 {
-    InteractableCharacter interactable;
+    CurrentChatState whereTheFuckingPlayerIsUpToLol;
+    OnTriggerPressed trigger;
+
+    DialogueManager dialogManager;
+    public DialogueLine[] linesNormal;
+    public DialogueLine[] linesA;
+    public DialogueLine[] linesB;
+    public DialogueLine[] linesC;
+    public DialogueLine[] linesD;
     //public BoxCollider2D playerCol;
     //public Rigidbody2D playerRb;
+    bool inRangeOfPlayer;
+    bool eventStarted;
 
     // Start is called before the first frame update
     void Start()
     {
-        interactable = gameObject.GetComponent<InteractableCharacter>();
+        dialogManager = PlayerManager.instance.dialogueManager;
+        dialogManager.UIDisplay.SetActive(false);
+
+        trigger += ChangeChat;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    void OnTriggerStay2D (Collider2D other) {
-        if (other.GetComponent<CharacterController>()) {
-            if (Input.GetKeyDown(KeyCode.E)) {
-                    StartEvent();
-                }
+        if (inRangeOfPlayer && !eventStarted && Input.GetKeyDown(KeyCode.E))
+        {
+            StartEvent();
+        }
+        else if (eventStarted && Input.GetKeyDown(KeyCode.E))
+        {
+            dialogManager.NextSentence();
         }
     }
 
-    void StartEvent() {
-        
+    void OnTriggerEnter2D (Collider2D other)
+    {
+        if (other.GetComponent<PlayerController>())
+        {
+            inRangeOfPlayer = true;
+        }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        inRangeOfPlayer = false;
+    }
+
+    void StartEvent()
+    {
+        dialogManager.UIDisplay.SetActive(true);
+        eventStarted = true;
+        switch (whereTheFuckingPlayerIsUpToLol)
+        {
+            case CurrentChatState.normal:
+                dialogManager.lines = linesNormal;
+                break;
+            case CurrentChatState.a:
+                dialogManager.lines = linesA;
+                break;
+            case CurrentChatState.b:
+                dialogManager.lines = linesB;
+                break;
+            case CurrentChatState.c:
+                dialogManager.lines = linesC;
+                break;
+            case CurrentChatState.d:
+                dialogManager.lines = linesD;
+                break;
+        }
+        
+        dialogManager.NextSentence();
+        Debug.Log(linesNormal[0].line.ToCharArray().Length);
+        PlayerManager.instance.player.SetPlayerState(PlayerState.Dialogue);
+        Time.timeScale = 0f;
+    }
+
+    public void ChangeChat(CurrentChatState newState)
+    {
+        whereTheFuckingPlayerIsUpToLol = newState;
+    }
+
 }

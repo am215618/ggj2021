@@ -9,6 +9,10 @@ public class Activator : MonoBehaviour
 
     public GameObject tentacles;
 
+    public CurrentChatState stateToChangeTo;
+
+    OnTriggerPressed triggerEvent;
+
     public void Start()
     {
         if(objectToTurnOff != null)
@@ -28,5 +32,7 @@ public class Activator : MonoBehaviour
 
         if(objectToTurnOn != null)
             objectToTurnOn.SetActive(true);
+
+        triggerEvent?.Invoke(stateToChangeTo);
     }
 }

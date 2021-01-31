@@ -25,7 +25,7 @@ public class TalkingToNPCScript : InteractionScript
                 UnlockCursor();
 
                 dialogueManager.NPC = this.gameObject;
-                dialogueManager.dialogueBranches = branches;
+                //dialogueManager.dialogueBranches = branches;
                 if (initialBranch.endPoint != null)
                     dialogueManager.lines = new DialogueLine[initialBranch.dialogueLines.Length + 1];
                 else

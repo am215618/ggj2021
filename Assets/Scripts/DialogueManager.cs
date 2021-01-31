@@ -9,9 +9,10 @@ using UnityEngine.EventSystems;
 public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI characterNameText;
-    public TextMeshProUGUI textDisplay;
-    public DialogueBranch[] dialogueBranches;
+    public Text textDisplay;
     public DialogueLine[] lines;
+
+    public GameObject UIDisplay;
 
     [HideInInspector]
     public GameObject NPC;
@@ -23,7 +24,7 @@ public class DialogueManager : MonoBehaviour
 
     public Button button;
 
-    int index;
+    [SerializeField] int index = -1;
     //float timePassed;
     //Button[] optionButtons;
 
@@ -31,10 +32,9 @@ public class DialogueManager : MonoBehaviour
     bool canTypeToDisplay;
 
     public bool tutorialButtonBothOptsSelected;
-    float textTypingTimer;
-    int letterIndex;
+    [SerializeField] float textTypingTimer = -1;
+    [SerializeField] int letterIndex = -1;
     
-
     // Start is called before the first frame update
     void Start()
     {
@@ -52,88 +52,59 @@ public class DialogueManager : MonoBehaviour
         }*/
 
         //optionButtons = optionsBox.GetComponentsInChildren<Button>();
-        characterNameText.text = lines[index].characterSpeaking;
+        if(characterNameText != null)
+            characterNameText.text = lines[index].characterSpeaking;
         //continueButton.SetActive(false);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         //StartCoroutine(Type());
     }
 
     // Update is called once per frame
     void Update()
     {
-        textTypingTimer += Time.deltaTime;
-        //(tutorialIntro != null)
-            //tutorialButtonBothOptsSelected = tutorialIntro.BothOptionsSelected();
+        textTypingTimer += Time.unscaledDeltaTime;
 
-        if (textDisplay.text == lines[index].line)
-        {
-            //timePassed += Time.unscaledDeltaTime;
-
-            //if (lines[index].endAfterSeconds <= timePassed && lines[index].endAutomatically || lines[index].endImmediatly)
-            if (lines[index].endImmediatly && canContinue)
-            {
-                if (Input.GetKeyUp(KeyCode.E)) {
-                    NextSentence();
-                }
-            }
-
-            //if (lines[index].GetType() == typeof(DialogueOptions))
-            //{
-                //DialogueOptions dialogOpt = (DialogueOptions)lines[index];
-
-                //if (dialogOpt.options.Length > optionButtons.Length)
-                //{
-                    //for (int i = 0; i < dialogOpt.options.Length; i++)
-                    //{
-                    //    button.GetComponent<DialogueButton>().buttonIndex = i;
-                    //    Instantiate(button.gameObject, optionsBox.transform);
-                    //}
-                    //optionButtons = optionsBox.GetComponentsInChildren<Button>();
-
-                    /*for (int i = 0; i < optionButtons.Length; i++)
-                    {
-                        optionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = dialogOpt.options[i];
-                        optionButtons[i].GetComponent<DialogueButton>().buttonIndex = i + 1;
-                    }*/
-
-                    //if(tutorialIntro != null)
-                    //{
-                    //    ChangeTutorialButton();
-                    //}
-
-                    //optionsBox.SetActive(true);
-                //}
-            //}
-            //else
-            //{
-            //    if(!lines[index].endAutomatically)
-            //        continueButton.SetActive(true);
-            //}
-        }
         if (!canContinue && canTypeToDisplay)
             TypingOutTextToDisplay();
+
+        if (lines.Length > 0)
+        {
+            if (textDisplay.text == lines[index].line)
+            {
+                if (lines[index].endImmediatly && canContinue)
+                {
+                    if (Input.GetKeyUp(KeyCode.E))
+                    {
+                        NextSentence();
+                    }
+                }
+            }
+        }
+        
     }
 
-    void TypingOutTextToDisplay () {
-        if (textDisplay.text.Length < lines[index].line.Length) {
+    public void TypingOutTextToDisplay ()
+    {
+        if (textDisplay.text.Length < lines[index].line.Length)
+        {
             if (textTypingTimer >= typingSpeed)
             {
                 textTypingTimer = 0;
                 letterIndex++;
-                lines[letterIndex].line.ToCharArray();
+                lines[index].line.ToCharArray();
                 char letter = lines[index].line[letterIndex];
                 textDisplay.text += letter;
             }
         }
-        else {
+        else
+        {
             canContinue = true;
-            letterIndex = 0;
+            letterIndex = -1;
         }
     }
 
     public void SkipDialogue()
     {
-        StopAllCoroutines();
         textDisplay.text = "";
         textDisplay.text = lines[index].line;
     }
@@ -148,10 +119,12 @@ public class DialogueManager : MonoBehaviour
             if (index < lines.Length - 1)
             {
                 index++;
-                characterNameText.text = lines[index].characterSpeaking;
-                textDisplay.text = "";
                 canTypeToDisplay = true;
                 canContinue = false;
+                textTypingTimer = 0;
+                //characterNameText.text = lines[index].characterSpeaking;
+                textDisplay.text = "";
+                
                 //StartCoroutine(Type());
 
             }
@@ -166,30 +139,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void SelectOption(int buttonIndex)
-    {
-        //GetComponent<FlashScript>().text.gameObject.SetActive(true);
-
-        index = 0;
-        characterNameText.text = lines[index].characterSpeaking;
-        textDisplay.text = "";
-        if (dialogueBranches[buttonIndex].dialogueLines.Length > 0)
-        {
-            lines = dialogueBranches[buttonIndex].dialogueLines;
-        }
-        else
-        {
-            EndConvo();
-        }
-
-        //optionsBox.SetActive(false);
-    }
-
     public void EndConvo()
     {
         Time.timeScale = 1f;
 
-        Destroy(gameObject);
+        PlayerManager.instance.player.SetPlayerState(PlayerState.Normal);
+        UIDisplay.SetActive(false);
     }
 
     /*void ChangeTutorialButton()

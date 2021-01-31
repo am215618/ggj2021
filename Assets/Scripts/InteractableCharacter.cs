@@ -5,6 +5,5 @@ using UnityEngine;
 public class InteractableCharacter : MonoBehaviour
 {
     public DialogueBranch[] initialDialougeBranches;
-
     [SerializeField] int index;
 }

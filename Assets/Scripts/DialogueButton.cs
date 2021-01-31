@@ -19,6 +19,6 @@ public class DialogueButton : MonoBehaviour
 
     void OnClick()
     {
-        dialogueManager.SelectOption(button.GetComponent<DialogueButton>().buttonIndex);
+        //dialogueManager.SelectOption(button.GetComponent<DialogueButton>().buttonIndex);
     }
 }

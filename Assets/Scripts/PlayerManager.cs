@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void OpenDoor();
+public enum CurrentChatState { normal, a, b, c, d }
+public delegate void OnTriggerPressed(CurrentChatState chatState);
 
 public class PlayerManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerManager : MonoBehaviour
 
     public PlayerController player;
     public UIScript ui;
+    public DialogueManager dialogueManager;
 
     private void Start()
     {
