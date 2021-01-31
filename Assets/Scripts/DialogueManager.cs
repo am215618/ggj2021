@@ -145,6 +145,15 @@ public class DialogueManager : MonoBehaviour
 
         PlayerManager.instance.player.SetPlayerState(PlayerState.Normal);
         UIDisplay.SetActive(false);
+
+        if(NPC != null)
+        {
+            GamasDialogue gamas = NPC.GetComponent<GamasDialogue>();
+            if (gamas != null)
+            {
+                gamas.Leave();
+            }
+        }
     }
 
     /*void ChangeTutorialButton()

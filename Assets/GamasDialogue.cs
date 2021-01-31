@@ -9,14 +9,17 @@ public class GamasDialogue : MonoBehaviour
 
     DialogueManager dialogManager;
     public DialogueLine[] linesNormal;
+    public DialogueLine[] linesGoop;
     public DialogueLine[] linesA;
     public DialogueLine[] linesB;
     public DialogueLine[] linesC;
     public DialogueLine[] linesD;
     //public BoxCollider2D playerCol;
     //public Rigidbody2D playerRb;
+
     bool inRangeOfPlayer;
     bool eventStarted;
+    bool leaving;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +43,7 @@ public class GamasDialogue : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D (Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<PlayerController>())
         {
@@ -77,6 +80,7 @@ public class GamasDialogue : MonoBehaviour
         }
         
         dialogManager.NextSentence();
+        dialogManager.NPC = this.gameObject;
         Debug.Log(linesNormal[0].line.ToCharArray().Length);
         PlayerManager.instance.player.SetPlayerState(PlayerState.Dialogue);
         Time.timeScale = 0f;
@@ -87,4 +91,8 @@ public class GamasDialogue : MonoBehaviour
         whereTheFuckingPlayerIsUpToLol = newState;
     }
 
+    public void Leave()
+    {
+        transform.position = new Vector3(-10.4f, 0.64f, 0);
+    }
 }
