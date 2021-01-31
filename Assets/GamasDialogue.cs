@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GamasDialogue : MonoBehaviour
 {
-    CurrentChatState whereTheFuckingPlayerIsUpToLol;
+    public int progressEvent;
+    CurrentChatState progressState;
     OnTriggerPressed trigger;
 
     DialogueManager dialogManager;
@@ -14,11 +15,17 @@ public class GamasDialogue : MonoBehaviour
     public DialogueLine[] linesB;
     public DialogueLine[] linesC;
     public DialogueLine[] linesD;
+
+    public bool hasMultipleEvents;
+    bool updateEvent;
+
+    //public int progressEvent;
+
     //public BoxCollider2D playerCol;
     //public Rigidbody2D playerRb;
 
     bool inRangeOfPlayer;
-    bool eventStarted;
+    public bool eventStarted;
     bool leaving;
 
     // Start is called before the first frame update
@@ -33,6 +40,23 @@ public class GamasDialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (progressEvent == 1 && updateEvent)
+        {
+            progressState = CurrentChatState.a;
+            updateEvent = false;
+        }
+        else if (progressEvent == 2 && updateEvent)
+        {
+            progressState = CurrentChatState.b;
+            updateEvent = false;
+        }
+        else if (progressEvent == 3 && updateEvent)
+        {
+            progressState = CurrentChatState.c;
+            updateEvent = false;
+        }
+        
+
         if (inRangeOfPlayer && !eventStarted && Input.GetKeyDown(KeyCode.E))
         {
             StartEvent();
@@ -60,26 +84,27 @@ public class GamasDialogue : MonoBehaviour
     {
         dialogManager.UIDisplay.SetActive(true);
         eventStarted = true;
-        switch (whereTheFuckingPlayerIsUpToLol)
+        
+        switch (progressState)
         {
             case CurrentChatState.normal:
                 dialogManager.lines = linesNormal;
                 break;
             case CurrentChatState.a:
-                dialogManager.lines = linesA;
+                dialogManager.lines = linesGoop;
                 break;
             case CurrentChatState.b:
-                dialogManager.lines = linesB;
+                dialogManager.lines = linesA;
                 break;
             case CurrentChatState.c:
-                dialogManager.lines = linesC;
-                break;
-            case CurrentChatState.d:
-                dialogManager.lines = linesD;
+                dialogManager.lines = linesB;
                 break;
         }
         
-        dialogManager.NextSentence();
+        /*if (!dialogManager.NextSentence()) {
+            eventStarted = false;
+            }
+        }*/
         dialogManager.NPC = this.gameObject;
         Debug.Log(linesNormal[0].line.ToCharArray().Length);
         PlayerManager.instance.player.SetPlayerState(PlayerState.Dialogue);
@@ -88,7 +113,7 @@ public class GamasDialogue : MonoBehaviour
 
     public void ChangeChat(CurrentChatState newState)
     {
-        whereTheFuckingPlayerIsUpToLol = newState;
+        progressState = newState;
     }
 
     public void Leave()

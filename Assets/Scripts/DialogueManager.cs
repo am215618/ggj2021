@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class DialogueManager : MonoBehaviour
 {
+    public GameObject gamasDialogue;
+    public GameObject soundTransition;
     public TextMeshProUGUI characterNameText;
     public Text textDisplay;
     public DialogueLine[] lines;
@@ -18,6 +20,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject NPC;
 
     public float typingSpeed;
+
+    public GameObject gloopScript;
 
     //public GameObject optionsBox;
     //public GameObject continueButton;
@@ -80,7 +84,6 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-        
     }
 
     public void TypingOutTextToDisplay ()
@@ -135,6 +138,25 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+            if (lines[index].isTrigger) {
+                if (lines[index].triggerName == "gamas leaves") {
+                    gameObject.GetComponent<GamasDialogue>().Leave();
+                }
+                else if (lines[index].triggerName == "return player") {
+                    gloopScript.GetComponent<Gloop>().ReturnPlayer();
+                }
+            }
+
+            if (lines[index].triggerName == "play gamas track") {
+            soundTransition.GetComponent<SoundTransition>().PlayGamasTrack();   
+            }
+            else if (lines[index].triggerName == "play intense") {
+                soundTransition.GetComponent<SoundTransition>().PlayIntenseTrack();
+            }
+            else if (lines[index].triggerName == "play ending") {
+                soundTransition.GetComponent<SoundTransition>().PlayIntenseTrack();
+            }
+            gamasDialogue.GetComponent<GamasDialogue>().eventStarted = false;
             EndConvo();
         }
     }
@@ -151,6 +173,7 @@ public class DialogueManager : MonoBehaviour
             GamasDialogue gamas = NPC.GetComponent<GamasDialogue>();
             if (gamas != null)
             {
+                soundTransition.GetComponent<SoundTransition>().PlayDefault();
                 gamas.Leave();
             }
         }

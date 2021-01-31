@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3850e02e7b94d441b569abb74a243e8, type: 3}
+  m_Name: Line 15
+  m_EditorClassIdentifier: 
+  characterSpeaking: 
+  line: "Gamas: You just need to accept that you don\u2019t belong out there."
+  endAutomatically: 0
+  endAfterSeconds: 0
+  endImmediatly: 0
+  isTrigger: 0
+  triggerName: 

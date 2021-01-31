@@ -11,4 +11,7 @@ public class DialogueLine : ScriptableObject
     public bool endAutomatically;
     public float endAfterSeconds;
     public bool endImmediatly;
+
+    public bool isTrigger;
+    public string triggerName;
 }
