@@ -6,7 +6,7 @@ public class Ability : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             if (!PlayerManager.instance.ui.abilityThing.activeSelf)
             {

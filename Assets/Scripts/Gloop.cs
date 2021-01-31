@@ -8,7 +8,7 @@ public class Gloop : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             collision.GetComponent<PlayerController>().movePoint.transform.position = respawnPosition.position;
             collision.transform.position = collision.GetComponent<PlayerController>().movePoint.transform.position;
