@@ -69,16 +69,31 @@ public class PlayerController : MonoBehaviour
                         animator.SetBool("InputPressed", false);
                         vInput = false;
                         hInput = false;
+
+                        if (Input.GetKeyUp(KeyCode.A) && hasAbility)
+                        {
+                            if (animator.GetBool("LastPressedRight")) { 
+                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.x + spawnDistance, gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity);
+                            }
+                            if (animator.GetBool("LastPressedLeft")) { 
+                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.x - spawnDistance, gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity);
+                            }
+                            if (animator.GetBool("LastPressedUp")) { 
+                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + spawnDistance, gameObject.transform.position.z), Quaternion.identity);
+                            }
+                            if (animator.GetBool("LastPressedDown")) { 
+                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - spawnDistance, gameObject.transform.position.z), Quaternion.identity);
+                            }
+                        }
                     }
 
                     if (Vector3.Distance(transform.position, movePoint.position) <= 0.16f)
                     {
                         if (!vInput)
                         {
-                            hInput = true;
-                                
                             if (Mathf.Abs(hMove) == 1f)
                             {
+                                hInput = true;
                                 if (hMove == 1)
                                 {
                                     animator.SetBool("LastPressedRight", true);
@@ -93,7 +108,7 @@ public class PlayerController : MonoBehaviour
                                     animator.SetBool("LastPressedUp", false);
                                     animator.SetBool("LastPressedDown", false);
                                 }
-                                
+
                                 if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal") * gridCellSize, 0f, 0f), .12f, collisionLayer))
                                 {
                                     animator.SetBool("InputPressed", true);
@@ -106,6 +121,7 @@ public class PlayerController : MonoBehaviour
                         {
                             if (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
                             {
+                                vInput = true;
                                 if (vMove == 1)
                                 {
                                     animator.SetBool("LastPressedRight", false);
@@ -120,8 +136,6 @@ public class PlayerController : MonoBehaviour
                                     animator.SetBool("LastPressedUp", false);
                                     animator.SetBool("LastPressedDown", true);
                                 }
-
-                                vInput = true;
                                 if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical") * gridCellSize, 0f), .12f, collisionLayer))
                                 {
                                     animator.SetBool("InputPressed", true);
@@ -140,25 +154,6 @@ public class PlayerController : MonoBehaviour
                                 {
                                     door.OpenDoor();
                                 }
-                            }
-                        }
-                    }
-
-                    if (hMove == 0 && vMove == 0)
-                    {
-                        if (Input.GetKeyUp(KeyCode.A) && hasAbility)
-                        {
-                            if (animator.GetBool("LastPressedRight")) { 
-                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.x + spawnDistance, gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity);
-                            }
-                            if (animator.GetBool("LastPressedLeft")) { 
-                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.x - spawnDistance, gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity);
-                            }
-                            if (animator.GetBool("LastPressedUp")) { 
-                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.y + spawnDistance, gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity);
-                            }
-                            if (animator.GetBool("LastPressedDown")) { 
-                                Instantiate(magicPowerPrefab, new Vector3(gameObject.transform.position.y - spawnDistance, gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity);
                             }
                         }
                     }
