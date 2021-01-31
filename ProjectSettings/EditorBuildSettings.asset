@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 9d9d934e0e28c3e43bdd938a1a812230
   - enabled: 1
+    path: Assets/Scenes/TestLevel - RevisedDialogue.unity
+    guid: 6b2172262d1fd5443bcb17a59300da86
+  - enabled: 0
     path: Assets/Scenes/TestLevel.unity
     guid: cb747d03230312443ad471e3670c87b2
   m_configObjects: {}

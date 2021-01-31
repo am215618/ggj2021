@@ -7,6 +7,8 @@ public class Malice : MonoBehaviour
     public BoxCollider2D boxColliderUpFront;
     public Vector3[] positions;
 
+    public AudioSource source;
+
     public enum State { Nothing, Roam, Chase }
     public State state;
 
@@ -18,6 +20,7 @@ public class Malice : MonoBehaviour
     public float delay;
 
     float delayStart;
+    bool playingSong;
 
     public float radiusNeededForChasing;
 
@@ -35,6 +38,21 @@ public class Malice : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.instance.player.transform.position, transform.position);
+
+        if(distanceFromPlayer <= radiusNeededForChasing)
+        {
+            if (!playingSong)
+            {
+                playingSong = true;
+                source.Play();
+            }
+        }
+        else
+        {
+            if (playingSong) source.Stop();
+        }
+
         if (state == State.Roam)
         {
             if (transform.position != currentMoveTo)
